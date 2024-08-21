@@ -3,7 +3,6 @@ from typing import List
 
 from app.models.schemas.model import ModelCreate, Model
 from app.services.supabase_service import SupabaseService
-from app.ai.model.anthropic import anthropic
 
 
 class ModelService(SupabaseService):
@@ -36,8 +35,6 @@ class ModelService(SupabaseService):
             raise
 
     async def list_models(self) -> List[Model]:
-        anthropic.systemPrompt(prompt="Your name is John Cena")
-        print(anthropic.model.invoke("What is your name?"))
         try:
             result = self.client.table('models').select('*').execute()
             models = []

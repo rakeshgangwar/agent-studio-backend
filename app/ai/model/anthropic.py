@@ -46,4 +46,4 @@ anthropic = AnthropicModel(
 )
 
 # anthropic.systemPrompt(prompt="You are a rockstar")
-print(anthropic.model.invoke("Who are you?").content)
+# print(anthropic.model.invoke("Who are you?").content)
