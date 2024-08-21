@@ -3,7 +3,7 @@ from typing import List
 
 from app.models.schemas.model import ModelCreate, Model
 from app.services.supabase_service import SupabaseService
-from app.ai.models.anthropic import anthropic
+from app.ai.model.anthropic import anthropic
 
 
 class ModelService(SupabaseService):
