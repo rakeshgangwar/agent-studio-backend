@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -16,3 +17,9 @@ class ModelProviderCreate(BaseModel):
     name: str
     description: str
     website: str
+
+
+class ModelProviderUpdate(BaseModel):
+    name: Optional[str]
+    description: Optional[str]
+    website: Optional[str]

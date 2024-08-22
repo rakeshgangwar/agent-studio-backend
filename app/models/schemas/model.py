@@ -27,3 +27,14 @@ class ModelCreate(BaseModel):
     default_parameters: Optional[Json] = None
     is_active: bool
     provider_id: int
+
+
+class ModelUpdate(BaseModel):
+    name: Optional[str] = None
+    type: Optional[str] = None
+    version: Optional[str] = None
+    description: Optional[str] = None
+    configuration: Optional[Json] = None
+    default_parameters: Optional[Json] = None
+    is_active: Optional[bool] = None
+    provider_id: Optional[int] = None
