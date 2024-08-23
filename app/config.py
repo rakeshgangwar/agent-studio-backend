@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     openai_api_key: str
     anthropic_api_key: str
     tavily_api_key: str
+    openweather_appid: str
 
     class Config:
         env_file = ".env.local"

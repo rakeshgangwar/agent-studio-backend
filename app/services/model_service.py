@@ -2,6 +2,7 @@ import asyncio
 from typing import List
 
 from app.models.schemas.model import ModelCreate, Model
+from app.models.schemas.model_provider import ModelProvider
 from app.services.supabase_service import SupabaseService
 
 
@@ -67,6 +68,11 @@ class ModelService(SupabaseService):
         except Exception as e:
             print(f"Error deleting model: {str(e)}")
             raise
-
+    
+    async def get_model_provider(self, provider_id: int) -> ModelProvider:
+        result = self.client.table('model_providers').select('*').eq('id', provider_id).execute()
+        if not result.data:
+            return None
+        return ModelProvider(**result.data[0])
 
 model_service = ModelService()

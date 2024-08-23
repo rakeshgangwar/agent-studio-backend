@@ -5,6 +5,7 @@ from app.models.schemas.agent import AgentCreate, Agent
 from app.models.schemas.knowledge_base import KnowledgeBase
 from app.models.schemas.tool import Tool
 from app.models.schemas.prompt import Prompt
+from app.models.schemas.agent_prompt import AgentPrompt, AgentPromptCreate
 from app.services.model_service import model_service
 from app.services.supabase_service import SupabaseService
 
@@ -191,5 +192,16 @@ class AgentService(SupabaseService):
             print(f"Error executing agent: {str(e)}")
             raise
 
+    async def add_prompt_to_agent(self, agent_prompt: AgentPromptCreate) -> AgentPrompt:
+        result = self.client.table('agent_prompts').insert(agent_prompt.dict()).execute()
+        return AgentPrompt(**result.data[0])
+
+    async def remove_prompt_from_agent(self, agent_id: int, prompt_id: int) -> bool:
+        result = self.client.table('agent_prompts').delete().eq('agent_id', agent_id).eq('prompt_id', prompt_id).execute()
+        return len(result.data) > 0
+
+    async def get_agent_prompts(self, agent_id: int) -> List[AgentPrompt]:
+        result = self.client.table('agent_prompts').select('*').eq('agent_id', agent_id).execute()
+        return [AgentPrompt(**item) for item in result.data]
 
 agent_service = AgentService()

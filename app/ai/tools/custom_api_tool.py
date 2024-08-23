@@ -4,6 +4,8 @@ from langchain.tools import BaseTool
 import requests
 from pydantic import Field
 
+from app.config import settings
+
 
 class CustomAPITool(BaseTool):
     name: str = "Custom API Tool"
@@ -59,7 +61,7 @@ weather_api_config = {
     'method': 'GET',
     'params': {
         'q': '$query',
-        'appid': '272fcb70d2c4e6f5134c2dce7d091df6',
+        'appid': settings.openweather_appid,
         'units': 'metric'
     }
 }
@@ -77,9 +79,9 @@ tools = [
     )
 ]
 
-llm = OpenAI(temperature=0, api_key="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")
-agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
-
-# Example agent execution
-result = agent.invoke(input="What's the weather like in London?")
-print(result)
+# llm = OpenAI(temperature=0, api_key="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")
+# agent = initialize_agent(tools, llm, agent="zero-shot-react-description", verbose=True)
+#
+# # Example agent execution
+# result = agent.invoke(input="What's the weather like in London?")
+# print(result)
