@@ -5,6 +5,7 @@ from app.models.schemas.agent import AgentCreate, Agent
 from app.models.schemas.knowledge_base import KnowledgeBase
 from app.models.schemas.tool import Tool
 from app.models.schemas.prompt import Prompt
+from app.services.model_service import model_service
 from app.services.supabase_service import SupabaseService
 
 
@@ -159,6 +160,35 @@ class AgentService(SupabaseService):
             return len(result.data) > 0
         except Exception as e:
             print(f"Error deleting agent: {str(e)}")
+            raise
+
+    async def get_agent_with_model(self, agent_id: int) -> Agent:
+        try:
+            response = self.client.table("agents").select(
+                "*",
+                "models(name, type, version, description)"
+            ).eq("id", agent_id).single().execute()
+            if response.data:
+                agent = response.data
+                print(f"Agent found: {agent['name']}")
+                if agent['models']:
+                    print(f"Associated model: {agent['models']['name']}")
+                return agent
+            else:
+                print(f"No agent found with ID {agent_id}")
+                return None
+        except Exception as e:
+            print(f"Error getting agent with model: {str(e)}")
+            raise
+
+    async def execute_agent(self, agent_id: int) -> Agent:
+        try:
+            agent = await self.get_agent(agent_id)
+            model = await model_service.get_model(agent.model_id)
+            print(model)
+            return agent
+        except Exception as e:
+            print(f"Error executing agent: {str(e)}")
             raise
 
 

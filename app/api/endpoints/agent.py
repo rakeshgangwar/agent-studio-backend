@@ -52,3 +52,11 @@ async def update_agent(agent_id: int, agent: AgentCreate):
         return agent
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/agents/{agent_id}/session/{session_id}/execute")
+async def execute_agent(agent_id: int, session_id: int):
+    try:
+        return await agent_service.get_agent_with_model(agent_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

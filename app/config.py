@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     project_name: str = "Agent Studio API"
     openai_api_key: str
     anthropic_api_key: str
+    tavily_api_key: str
 
     class Config:
         env_file = ".env.local"

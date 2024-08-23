@@ -1,11 +1,13 @@
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class Agent(BaseModel):
     id: int
+    model_config = ConfigDict(protected_namespaces=())
+    model_id: Optional[int]
     name: str
     description: Optional[str] = None
     created_at: datetime
